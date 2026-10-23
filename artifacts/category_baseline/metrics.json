@@ -1,0 +1,184 @@
+{
+  "dataset": "bitext_messages",
+  "rows_used": 5000,
+  "number_of_categories": 11,
+  "split_sizes": {
+    "train": 3500,
+    "validation": 750,
+    "test": 750
+  },
+  "random_state": 42,
+  "model": "TF-IDF + Logistic Regression",
+  "validation": {
+    "accuracy": 0.9986666666666667,
+    "macro_f1": 0.998390989541432,
+    "weighted_f1": 0.9986666666666667,
+    "classification_report": {
+      "ACCOUNT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 160.0
+      },
+      "CANCEL": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 26.0
+      },
+      "CONTACT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 58.0
+      },
+      "DELIVERY": {
+        "precision": 0.9824561403508771,
+        "recall": 1.0,
+        "f1-score": 0.9911504424778761,
+        "support": 56.0
+      },
+      "FEEDBACK": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 60.0
+      },
+      "INVOICE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 58.0
+      },
+      "ORDER": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 105.0
+      },
+      "PAYMENT": {
+        "precision": 1.0,
+        "recall": 0.9824561403508771,
+        "f1-score": 0.9911504424778761,
+        "support": 57.0
+      },
+      "REFUND": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 85.0
+      },
+      "SHIPPING": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 62.0
+      },
+      "SUBSCRIPTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 23.0
+      },
+      "accuracy": 0.9986666666666667,
+      "macro avg": {
+        "precision": 0.9984051036682615,
+        "recall": 0.9984051036682615,
+        "f1-score": 0.998390989541432,
+        "support": 750.0
+      },
+      "weighted avg": {
+        "precision": 0.9986900584795321,
+        "recall": 0.9986666666666667,
+        "f1-score": 0.9986666666666667,
+        "support": 750.0
+      }
+    }
+  },
+  "test": {
+    "accuracy": 0.9893333333333333,
+    "macro_f1": 0.9871250363350278,
+    "weighted_f1": 0.9892942858676524,
+    "classification_report": {
+      "ACCOUNT": {
+        "precision": 0.975609756097561,
+        "recall": 1.0,
+        "f1-score": 0.9876543209876543,
+        "support": 160.0
+      },
+      "CANCEL": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1-score": 0.9803921568627451,
+        "support": 26.0
+      },
+      "CONTACT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 58.0
+      },
+      "DELIVERY": {
+        "precision": 0.9655172413793104,
+        "recall": 1.0,
+        "f1-score": 0.9824561403508771,
+        "support": 56.0
+      },
+      "FEEDBACK": {
+        "precision": 0.9836065573770492,
+        "recall": 1.0,
+        "f1-score": 0.9917355371900827,
+        "support": 60.0
+      },
+      "INVOICE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 58.0
+      },
+      "ORDER": {
+        "precision": 0.9904761904761905,
+        "recall": 0.9904761904761905,
+        "f1-score": 0.9904761904761905,
+        "support": 105.0
+      },
+      "PAYMENT": {
+        "precision": 1.0,
+        "recall": 0.9824561403508771,
+        "f1-score": 0.9911504424778761,
+        "support": 57.0
+      },
+      "REFUND": {
+        "precision": 1.0,
+        "recall": 0.9764705882352941,
+        "f1-score": 0.9880952380952381,
+        "support": 85.0
+      },
+      "SHIPPING": {
+        "precision": 1.0,
+        "recall": 0.9838709677419355,
+        "f1-score": 0.991869918699187,
+        "support": 62.0
+      },
+      "SUBSCRIPTION": {
+        "precision": 1.0,
+        "recall": 0.9130434782608695,
+        "f1-score": 0.9545454545454546,
+        "support": 23.0
+      },
+      "accuracy": 0.9893333333333333,
+      "macro avg": {
+        "precision": 0.9922917950300101,
+        "recall": 0.9825323478730571,
+        "f1-score": 0.9871250363350278,
+        "support": 750.0
+      },
+      "weighted avg": {
+        "precision": 0.9895772265806321,
+        "recall": 0.9893333333333333,
+        "f1-score": 0.9892942858676524,
+        "support": 750.0
+      }
+    }
+  }
+}

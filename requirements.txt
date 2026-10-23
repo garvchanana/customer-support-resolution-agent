@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+pydantic
+sqlalchemy
+psycopg[binary]
+alembic
+python-dotenv
+pytest
+httpx
+langgraph
+pandas
+scikit-learn
+sentence-transformers
+groq

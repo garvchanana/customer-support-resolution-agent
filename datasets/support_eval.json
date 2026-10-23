@@ -1,0 +1,128 @@
+
+[
+  {
+    "case_id": "eval_001",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "I want a refund for my headphones",
+    "expected_category": "refund",
+    "expected_eligible": true,
+    "expected_reason": "ELIGIBLE_PENDING_HUMAN_APPROVAL",
+    "expected_requires_approval": true,
+    "expected_outcome": "human_review_required"
+  },
+  {
+    "case_id": "eval_002",
+    "customer_id": "cus_001",
+    "order_id": "ord_1002",
+    "message": "Please give me my money back for the charger",
+    "expected_category": "refund",
+    "expected_eligible": false,
+    "expected_reason": "RETURN_NOT_RECEIVED",
+    "expected_outcome": "resolved"
+  },
+  {
+    "case_id": "eval_003",
+    "customer_id": "cus_001",
+    "order_id": "ord_2001",
+    "message": "Where is my order?",
+    "expected_category": "order_status",
+    "expected_eligible": null,
+    "expected_reason": "ORDER_NOT_ACCESSIBLE",
+    "expected_outcome": "resolved"
+  },
+  {
+    "case_id": "eval_004",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "My headphones arrived broken",
+    "expected_category": "damaged_item",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_outcome": "clarification_required"
+  },
+  {
+    "case_id": "eval_005",
+    "customer_id": "cus_001",
+    "order_id": null,
+    "message": "I want a refund for my purchase",
+    "expected_category": "refund",
+    "expected_eligible": null,
+    "expected_reason": "ORDER_ID_REQUIRED",
+    "expected_outcome": "clarification_required"
+  },
+
+  {
+    "case_id": "eval_006",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "Can you help me?",
+    "expected_category": "other",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": true,
+    "expected_order_investigated": false,
+    "expected_outcome": "clarification_required"
+  },
+  {
+    "case_id": "eval_007",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "What is the weather today?",
+    "expected_category": "other",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": false,
+    "expected_order_investigated": false,
+    "expected_outcome": "unsupported"
+  },
+  {
+    "case_id": "eval_008",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "Can you tell me my delivery status?",
+    "expected_category": "order_status",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": false,
+    "expected_order_investigated": true,
+    "expected_outcome": "resolved"
+  },
+  {
+    "case_id": "eval_009",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "I don't need a refund; I just want to know where my order is.",
+    "expected_category": "order_status",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": false,
+    "expected_order_investigated": true,
+    "expected_outcome": "resolved"
+  },
+  {
+    "case_id": "eval_010",
+    "customer_id": "cus_001",
+    "order_id": null,
+    "message": "Where is my package?",
+    "expected_category": "order_status",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": true,
+    "expected_order_investigated": false,
+    "expected_outcome": "clarification_required"
+  },
+  {
+    "case_id": "eval_011",
+    "customer_id": "cus_001",
+    "order_id": "ord_1001",
+    "message": "Can you recommend a movie?",
+    "expected_category": "other",
+    "expected_eligible": null,
+    "expected_reason": null,
+    "expected_needs_clarification": false,
+    "expected_order_investigated": false,
+    "expected_outcome": "unsupported"
+  }
+
+]

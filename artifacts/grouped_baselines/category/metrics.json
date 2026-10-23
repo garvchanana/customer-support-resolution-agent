@@ -1,0 +1,186 @@
+{
+  "dataset": "data\\raw\\bitext\\Bitext_Sample_Customer_Support_Training_Dataset_27K_responses-v11.csv",
+  "rows_used": 26872,
+  "unique_normalized_instructions": 23984,
+  "target": "category",
+  "model": "TF-IDF + Logistic Regression",
+  "split_sizes": {
+    "train": 18787,
+    "validation": 4058,
+    "test": 4027
+  },
+  "random_state": 42,
+  "group_overlap": false,
+  "validation": {
+    "accuracy": 0.9970428782651553,
+    "macro_f1": 0.997344003655289,
+    "weighted_f1": 0.9970412898414241,
+    "classification_report": {
+      "ACCOUNT": {
+        "precision": 0.990228013029316,
+        "recall": 1.0,
+        "f1-score": 0.9950900163666121,
+        "support": 912.0
+      },
+      "CANCEL": {
+        "precision": 0.993421052631579,
+        "recall": 1.0,
+        "f1-score": 0.9966996699669967,
+        "support": 151.0
+      },
+      "CONTACT": {
+        "precision": 0.9969512195121951,
+        "recall": 0.9969512195121951,
+        "f1-score": 0.9969512195121951,
+        "support": 328.0
+      },
+      "DELIVERY": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 241.0
+      },
+      "FEEDBACK": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 295.0
+      },
+      "INVOICE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 280.0
+      },
+      "ORDER": {
+        "precision": 1.0,
+        "recall": 0.9968992248062015,
+        "f1-score": 0.9984472049689441,
+        "support": 645.0
+      },
+      "PAYMENT": {
+        "precision": 1.0,
+        "recall": 0.99,
+        "f1-score": 0.9949748743718593,
+        "support": 300.0
+      },
+      "REFUND": {
+        "precision": 1.0,
+        "recall": 0.9977924944812362,
+        "f1-score": 0.9988950276243094,
+        "support": 453.0
+      },
+      "SHIPPING": {
+        "precision": 0.996551724137931,
+        "recall": 0.9829931972789115,
+        "f1-score": 0.9897260273972602,
+        "support": 294.0
+      },
+      "SUBSCRIPTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 159.0
+      },
+      "accuracy": 0.9970428782651553,
+      "macro avg": {
+        "precision": 0.9979229099373654,
+        "recall": 0.9967851032798677,
+        "f1-score": 0.997344003655289,
+        "support": 4058.0
+      },
+      "weighted avg": {
+        "precision": 0.9970627732199745,
+        "recall": 0.9970428782651553,
+        "f1-score": 0.9970412898414241,
+        "support": 4058.0
+      }
+    }
+  },
+  "test": {
+    "accuracy": 0.9975167618574621,
+    "macro_f1": 0.99765472542827,
+    "weighted_f1": 0.9975155299237337,
+    "classification_report": {
+      "ACCOUNT": {
+        "precision": 0.9943946188340808,
+        "recall": 1.0,
+        "f1-score": 0.9971894322653176,
+        "support": 887.0
+      },
+      "CANCEL": {
+        "precision": 0.9937106918238994,
+        "recall": 1.0,
+        "f1-score": 0.9968454258675079,
+        "support": 158.0
+      },
+      "CONTACT": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 315.0
+      },
+      "DELIVERY": {
+        "precision": 0.99375,
+        "recall": 1.0,
+        "f1-score": 0.9968652037617555,
+        "support": 318.0
+      },
+      "FEEDBACK": {
+        "precision": 0.993006993006993,
+        "recall": 1.0,
+        "f1-score": 0.9964912280701754,
+        "support": 284.0
+      },
+      "INVOICE": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 300.0
+      },
+      "ORDER": {
+        "precision": 1.0,
+        "recall": 0.9964539007092199,
+        "f1-score": 0.9982238010657194,
+        "support": 564.0
+      },
+      "PAYMENT": {
+        "precision": 1.0,
+        "recall": 0.9873817034700315,
+        "f1-score": 0.9936507936507937,
+        "support": 317.0
+      },
+      "REFUND": {
+        "precision": 1.0,
+        "recall": 0.9936170212765958,
+        "f1-score": 0.9967982924226254,
+        "support": 470.0
+      },
+      "SHIPPING": {
+        "precision": 1.0,
+        "recall": 0.9962825278810409,
+        "f1-score": 0.9981378026070763,
+        "support": 269.0
+      },
+      "SUBSCRIPTION": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1-score": 1.0,
+        "support": 145.0
+      },
+      "accuracy": 0.9975167618574621,
+      "macro avg": {
+        "precision": 0.997714754878634,
+        "recall": 0.9976122866669898,
+        "f1-score": 0.99765472542827,
+        "support": 4027.0
+      },
+      "weighted avg": {
+        "precision": 0.9975318604986323,
+        "recall": 0.9975167618574621,
+        "f1-score": 0.9975155299237337,
+        "support": 4027.0
+      }
+    }
+  }
+}
