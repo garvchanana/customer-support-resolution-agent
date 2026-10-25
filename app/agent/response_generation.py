@@ -1,4 +1,3 @@
-
 import json
 import os
 from typing import Any
@@ -103,7 +102,13 @@ def _unsupported_claim_reason(
     ):
         return "unsupported_photo_or_image_request"
 
-    if "minor units" in text:
+    currency_internal_terms = (
+        "minor units",
+        "amount_minor",
+        "amount_minor_units",
+    )
+
+    if any(term in text for term in currency_internal_terms):
         return "currency_minor_units_wording"
 
     return None

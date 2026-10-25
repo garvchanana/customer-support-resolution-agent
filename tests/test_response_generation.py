@@ -1,4 +1,3 @@
-
 import json
 from types import SimpleNamespace
 
@@ -299,4 +298,22 @@ def test_safe_draft_has_no_known_rejection_reason():
         policy_evidence=[],
     )
 
+    assert reason is None
+
+def test_rejects_internal_currency_field_names():
+    for phrase in ("amount_minor", "amount_minor_units"):
+        reason = _unsupported_claim_reason(
+            response=f"The value is {phrase}.",
+            verified_facts={},
+            policy_evidence=[],
+        )
+        assert reason == "currency_minor_units_wording"
+
+
+def test_accepts_customer_friendly_currency_amount():
+    reason = _unsupported_claim_reason(
+        response="The eligible refund amount is ₹4,999.00, subject to human approval.",
+        verified_facts={},
+        policy_evidence=[],
+    )
     assert reason is None
