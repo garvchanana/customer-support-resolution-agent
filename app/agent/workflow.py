@@ -1,4 +1,5 @@
 
+import logging
 import os
 from typing import Literal, TypedDict
 
@@ -11,6 +12,9 @@ from app.agent.retrieval import retrieve_policy
 from app.agent.classification import classify_support_message
 from app.agent.response_generation import generate_support_draft
 
+
+
+logger = logging.getLogger(__name__)
 class SupportState(TypedDict, total=False):
     customer_id: str
     order_id: str | None
@@ -292,6 +296,7 @@ def draft_response_shadow_node(state: SupportState) -> dict:
     ).strip().lower() in {"1", "true", "yes", "on"}
 
     if not enabled:
+        logger.info("Groq shadow draft status=disabled")
         return {}
 
     try:
@@ -306,9 +311,17 @@ def draft_response_shadow_node(state: SupportState) -> dict:
             },
             policy_evidence=state.get("policy_evidence", []),
         )
-    except Exception:
-        # A shadow-mode failure must not break support resolution.
+    except Exception as exc:
+        logger.warning(
+            "Groq shadow draft status=error error_type=%s",
+            type(exc).__name__,
+        )
         draft = None
+
+    if draft is None:
+        logger.info("Groq shadow draft status=unavailable")
+    else:
+        logger.info("Groq shadow draft status=accepted")
 
     # Deliberately do not update state["response"].
     return {"llm_draft": draft}
