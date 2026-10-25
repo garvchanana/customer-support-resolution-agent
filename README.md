@@ -289,26 +289,24 @@ Run tests locally before pushing changes. Use a dedicated test database and synt
 
 The main project areas are:
 
-```text
 customer-support-resolution-agent/
-├── app/
-│   ├── main.py
-│   ├── db.py
-│   └── agent/
-├── migrations/
-│   ├── env.py
-│   └── versions/
-├── scripts/
-│   └── seed_data.py
-├── tests/
-├── requirements.txt
-├── requirements-semantic.txt
-├── Procfile
-├── alembic.ini
-├── .env.example
-├── .gitignore
-└── README.md
-```
+|-- app/
+|   |-- main.py
+|   |-- db.py
+|   `-- agent/
+|-- migrations/
+|   |-- env.py
+|   `-- versions/
+|-- scripts/
+|   `-- seed_data.py
+|-- tests/
+|-- requirements.txt
+|-- requirements-semantic.txt
+|-- Procfile
+|-- alembic.ini
+|-- .env.example
+|-- .gitignore
+`-- README.md
 
 This is a high-level view of the principal files; the exact contents of subdirectories may evolve as the project develops.
 
