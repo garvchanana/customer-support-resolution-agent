@@ -1,130 +1,157 @@
 # Customer Support Resolution Agent
 
-A backend AI engineering project that classifies customer-support messages, retrieves relevant policies, investigates order information, assesses refund eligibility, and generates structured support resolutions.
+A policy-aware customer support API built with FastAPI, LangGraph, PostgreSQL, and machine-learning-assisted ticket classification. Deployed on Render with Neon PostgreSQL.
 
-Built with Python, FastAPI, LangGraph, PostgreSQL, SQLAlchemy, and machine-learning classification models. The project emphasizes deterministic business rules, policy-grounded responses, regression testing, and safe evaluation of LLM-generated drafts.
+**Live API:** https://customer-support-resolution-agent-qrjc.onrender.com  
+**API documentation:** https://customer-support-resolution-agent-qrjc.onrender.com/docs  
+**Health check:** https://customer-support-resolution-agent-qrjc.onrender.com/health
 
-**Important:** This application assesses refund eligibility; it does not issue refunds. Refunds requiring approval must be reviewed by a human.
+## Overview
 
-## Features
+The Customer Support Resolution Agent helps process customer support requests using policy-aware workflows, order data, ticket management, and ML-generated routing suggestions.
 
-- **FastAPI backend:** API endpoints for support resolution, message classification, ticket operations, and refund assessment.
-- **LangGraph workflow:** Structured processing for classification, clarification, policy retrieval, order investigation, and response formulation.
-- **PostgreSQL persistence:** Demo customers, orders, returns, payments, and tickets, plus separate historical dataset tables.
-- **ML classification suggestions:** Intent and category predictions support the workflow but do not independently authorize business actions.
-- **Policy retrieval:** Keyword-based retrieval by default, with an optional semantic retrieval implementation.
-- **Refund assessment:** Evaluates available order, payment, return, and policy information.
-- **LLM shadow mode:** Optional Groq-powered response drafts are evaluated without replacing the authoritative deterministic response.
-- **Safety checks:** Rejects certain unsupported claims and commitments in generated drafts.
-- **Automated tests and evaluations:** Regression tests, retrieval benchmarks, routing-safety checks, and LLM shadow evaluations.
+The system is designed to keep human approval in the loop for sensitive decisions such as refunds.
+
+### Key capabilities
+
+- Support request classification and category suggestions.
+- Ticket creation and retrieval.
+- Order-based refund eligibility assessment.
+- Policy-grounded response generation.
+- Human-review requirements for refund decisions.
+- ML intent and category suggestions with confidence metrics.
+- Optional semantic retrieval, with keyword retrieval as the default.
+- PostgreSQL persistence with versioned Alembic migrations.
+- Interactive API documentation through FastAPI Swagger UI.
 
 ## Technology stack
 
-- Python
-- FastAPI and Uvicorn
-- LangGraph
-- PostgreSQL
-- SQLAlchemy and Alembic
-- Pydantic
-- scikit-learn
-- sentence-transformers
-- Groq Python SDK
-- pytest and HTTPX
+| Layer | Technology |
+|---|---|
+| API | FastAPI |
+| API server | Uvicorn |
+| Agent workflow | LangGraph |
+| Database | Neon PostgreSQL |
+| ORM | SQLAlchemy |
+| Schema migrations | Alembic |
+| Validation | Pydantic |
+| ML utilities | scikit-learn |
+| Optional semantic retrieval | sentence-transformers |
+| Optional LLM provider | Groq |
+| Hosting | Render |
+| Source control | Git and GitHub |
+| Testing | pytest |
 
 ## Architecture
 
-The support workflow follows a controlled sequence:
-
-1. Classify the incoming customer message.
-2. Generate advisory ML classification suggestions where configured.
-3. Determine whether clarification or a supported workflow is required.
-4. Retrieve relevant policy evidence.
-5. Investigate available order and refund information.
-6. Assess the case using deterministic business rules.
-7. Formulate the authoritative response.
-8. Optionally generate an LLM draft in shadow mode.
-
-The deterministic workflow remains authoritative. An LLM-generated draft does not change the final response or outcome.
-
-### Resolution outcomes
-
-- `resolved` — the workflow has formulated a response for the supported request.
-- `clarification_required` — additional information is needed.
-- `human_review_required` — a human must review the case before the relevant action proceeds.
-- `unsupported` — the request is outside the supported workflow.
-
-The exact outcome depends on the workflow and the available verified information.
-
-## Project structure
-
 ```text
-customer-support-resolution-agent/
-├── app/
-│   ├── agent/
-│   │   ├── classification.py
-│   │   ├── response_generation.py
-│   │   ├── retrieval.py
-│   │   ├── semantic_retrieval.py
-│   │   └── workflow.py
-│   ├── services/
-│   │   └── refunds.py
-│   ├── data.py
-│   ├── db.py
-│   ├── main.py
-│   ├── models.py
-│   ├── olist_models.py
-│   └── schemas.py
-├── artifacts/
-│   ├── category_baseline/
-│   ├── grouped_baselines/
-│   └── intent_baseline/
-├── datasets/
-│   ├── support_eval.json
-│   └── support_challenge.json
-├── knowledge_base/
-│   ├── damaged_item_policy.md
-│   └── refund_policy.md
-├── migrations/
-│   └── versions/
-├── scripts/
-├── tests/
-├── .env.example
-├── .gitignore
-├── alembic.ini
-├── requirements.txt
-└── README.md
+Client / API consumer
+        |
+        v
+Render Web Service
+        |
+        v
+FastAPI application
+        |
+        +---- Ticket endpoints
+        |
+        +---- Refund assessment
+        |
+        +---- Support resolution workflow
+        |          |
+        |          +---- Policy retrieval
+        |          +---- ML suggestions
+        |          +---- Response generation
+        |          +---- Human-review controls
+        |
+        v
+SQLAlchemy
+        |
+        v
+Neon PostgreSQL
 ```
 
-Additional scripts support dataset inspection and preparation, database checks, model training, routing evaluation, retrieval evaluation, and LLM shadow evaluation.
+The default production retrieval mode is `keyword`. Semantic retrieval is optional and requires the dependencies in `requirements-semantic.txt`.
 
-## Requirements
+## Live deployment
 
-- Python compatible with the installed dependencies
-- pip
-- PostgreSQL
-- Git
+The application is deployed as a Render Web Service connected to a Neon PostgreSQL database.
 
-The commands below use **PowerShell on Windows**. Docker and WSL are not required for this setup.
+- **Base URL:** https://customer-support-resolution-agent-qrjc.onrender.com
+- **Health endpoint:** `/health`
+- **Swagger documentation:** `/docs`
+- **OpenAPI schema:** `/openapi.json`
 
-## Setup
+Check the health endpoint:
+
+```powershell
+curl.exe -i https://customer-support-resolution-agent-qrjc.onrender.com/health
+```
+
+Expected response:
+
+```json
+{
+  "status": "ok"
+}
+```
+
+The health check verifies application availability. It does not, by itself, prove database connectivity.
+
+## API endpoints
+
+The deployed API includes the following routes. Refer to `/docs` for the authoritative request schemas, HTTP methods, and response models.
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /health` | Application health check |
+| `POST /support/classify` | Classify a support request |
+| `POST /tickets` | Create a support ticket |
+| `GET /tickets/{ticket_id}` | Retrieve a ticket |
+| `GET /orders/{order_id}/refund-assessment` | Assess refund eligibility |
+| `POST /support/resolve` | Run the support-resolution workflow |
+
+Some endpoints may require specific request headers or body fields. Use the live Swagger documentation to confirm their current contracts.
+
+## Refund safety and human approval
+
+Refund assessment is separate from refund execution.
+
+A response such as:
+
+```json
+{
+  "eligible": true,
+  "amount_minor": 499900,
+  "currency": "INR",
+  "reason": "ELIGIBLE_PENDING_HUMAN_APPROVAL",
+  "requires_approval": true
+}
+```
+
+indicates that the order meets the configured demo eligibility checks but still requires human approval.
+
+`amount_minor` represents the amount in the currency's minor units; for INR, `499900` corresponds to ₹4,999.00.
+
+ML predictions are suggestions and should not independently authorize refunds. The deployed demo has been tested for assessment and support-resolution responses; this is not evidence of a live payment-provider integration or actual refund execution.
+
+## Local setup — Windows PowerShell
 
 ### 1. Clone the repository
 
 ```powershell
-git clone <repository-url>
+git clone https://github.com/garvchanana/customer-support-resolution-agent.git
 cd customer-support-resolution-agent
 ```
-
-Replace `<repository-url>` with the URL of your repository.
 
 ### 2. Create and activate a virtual environment
 
 ```powershell
-python -m venv .venv
+py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-If PowerShell prevents activation because of its execution policy, follow your organization's or system administrator's approved guidance for running virtual-environment activation scripts.
+If PowerShell blocks activation, use the appropriate execution-policy setting for your environment or invoke the virtual environment's Python directly.
 
 ### 3. Install dependencies
 
@@ -133,203 +160,177 @@ python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
+For optional semantic retrieval:
+
+```powershell
+pip install -r requirements-semantic.txt
+```
+
 ### 4. Configure environment variables
 
-Copy the example environment file:
+Create a local `.env` file from the example:
 
 ```powershell
 Copy-Item .env.example .env
 ```
 
-Edit `.env` and configure the database connection string for your local PostgreSQL installation.
+Set `DATABASE_URL` to your Neon PostgreSQL connection string or a suitable local PostgreSQL connection string.
 
-The project uses the following configuration options:
+The connection string must be compatible with the installed Psycopg 3 driver. A SQLAlchemy URL using `postgresql+psycopg://` is suitable.
 
-| Variable | Purpose |
-|---|---|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `SUPPORT_RETRIEVAL_MODE` | Retrieval implementation: `keyword` or `semantic` |
-| `SUPPORT_LLM_ENABLED` | Enables or disables LLM shadow-mode draft generation |
-| `GROQ_API_KEY` | Optional Groq API key for live draft generation |
-| `GROQ_MODEL` | Groq model identifier |
+Example format — replace the placeholders locally:
 
-The example configuration uses keyword retrieval and disables LLM shadow mode by default. The Groq model is configured through `GROQ_MODEL`.
+```env
+DATABASE_URL=postgresql+psycopg://USER:PASSWORD@HOST/DATABASE?sslmode=require
+SUPPORT_RETRIEVAL_MODE=keyword
+SUPPORT_LLM_ENABLED=false
+GROQ_API_KEY=
+GROQ_MODEL=openai/gpt-oss-120b
+```
 
-Keep `.env` and all credentials out of version control. Never put API keys directly into source code or paste them into public issue reports.
+Use the actual connection string supplied by Neon. Keep `.env` private and never commit credentials to source control.
 
-### 5. Prepare PostgreSQL
-
-Create a PostgreSQL database and an application database user with the required permissions.
-
-Set `DATABASE_URL` in `.env` to the connection string for that database. Use a URL-encoded password if it contains characters that require encoding.
-
-Apply the database migrations:
+### 5. Apply database migrations
 
 ```powershell
 python -m alembic upgrade head
 ```
 
-Seed the demo records:
+Check the current migration revision:
+
+```powershell
+python -m alembic current
+```
+
+### 6. Load synthetic demo data
 
 ```powershell
 python -m scripts.seed_data
 ```
 
-Run the seed script when the demo database needs its fixture records. Review the script before rerunning it against any database containing data you need to preserve.
+The seed script is intended to be idempotent. Review its contents before using it in any non-demo environment.
 
-### 6. Model artifacts and datasets
-
-The repository includes trained classification model artifacts and evaluation JSON files.
-
-The local raw and processed dataset directories are excluded from Git. Dataset preparation scripts are provided under `scripts/` for workflows that require those source files.
-
-Some scripts require the relevant source datasets to be obtained separately. Follow each script's expected inputs and options rather than assuming all datasets are included in the repository.
-
-The application also includes separate historical dataset tables for analysis. Historical e-commerce records must not be treated as proof that an individual demo order qualifies for a refund.
-
-## Run the API
-
-Start the development server:
+### 7. Start the API locally
 
 ```powershell
 uvicorn app.main:app --reload
 ```
 
-Open the interactive API documentation:
+Open:
 
-`http://127.0.0.1:8000/docs`
+- API: http://127.0.0.1:8000
+- Swagger UI: http://127.0.0.1:8000/docs
+- Health: http://127.0.0.1:8000/health
 
-Use the documented request schemas to explore the support-resolution, classification, ticket, and refund-assessment endpoints.
+## Environment variables
 
-The demo uses the `X-Demo-Customer-ID` request header for customer context where applicable. This is a demonstration mechanism, not production authentication.
+| Variable | Purpose |
+|---|---|
+| `DATABASE_URL` | PostgreSQL connection string |
+| `SUPPORT_RETRIEVAL_MODE` | Retrieval mode; use `keyword` for the current deployment |
+| `SUPPORT_LLM_ENABLED` | Enables or disables optional LLM functionality |
+| `GROQ_API_KEY` | Optional Groq API credential when LLM functionality is enabled |
+| `GROQ_MODEL` | Configured Groq model name |
+| `PYTHON_VERSION` | Python version selected for the Render build |
 
-Stop the server with `Ctrl+C`.
+Keep secret values in local `.env` or the Render service's environment settings. `.env.example` must contain placeholders only.
 
-## Run the demo
+## Render deployment configuration
 
-From the project root:
+The production service uses the following configuration.
 
-```powershell
-python run_agent_demo.py
+**Build command**
+
+```bash
+pip install -r requirements.txt
 ```
 
-This runs the project's command-line demonstration. Use the API documentation for interactive endpoint testing.
+**Start command**
 
-## Run tests and evaluations
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+```
 
-Run the full regression suite:
+Configure the required environment variables in the Render dashboard. The `DATABASE_URL` value must point to the Neon database.
+
+The application listens on the port supplied by Render through `$PORT`. Render builds and starts the web service from the connected GitHub repository.
+
+After deployment, verify `/health`, `/docs`, and a database-backed endpoint.
+
+## Database migrations and seed data
+
+Alembic migration files live under `migrations/versions/`.
+
+Apply schema changes with:
+
+```powershell
+python -m alembic upgrade head
+```
+
+Load the synthetic demo records with:
+
+```powershell
+python -m scripts.seed_data
+```
+
+Do not run schema migrations or seed scripts automatically on every application startup unless that behavior is deliberately designed and tested.
+
+## Testing
+
+Install the development dependencies if they are maintained separately. The project test suite can be run with:
 
 ```powershell
 python -m pytest -q
 ```
 
-Run the agent evaluation:
+Run tests locally before pushing changes. Use a dedicated test database and synthetic data for integration tests.
 
-```powershell
-python -m scripts.evaluate_agent
+## Repository structure
+
+The main project areas are:
+
+```text
+customer-support-resolution-agent/
+├── app/
+│   ├── main.py
+│   ├── db.py
+│   └── agent/
+├── migrations/
+│   ├── env.py
+│   └── versions/
+├── scripts/
+│   └── seed_data.py
+├── tests/
+├── requirements.txt
+├── requirements-semantic.txt
+├── Procfile
+├── alembic.ini
+├── .env.example
+├── .gitignore
+└── README.md
 ```
 
-Run the challenge evaluation:
+This is a high-level view of the principal files; the exact contents of subdirectories may evolve as the project develops.
 
-```powershell
-python -m scripts.evaluate_challenge
-```
+## Security and operational notes
 
-Run the routing-safety evaluation:
+- Never commit `.env`, database passwords, or API keys.
+- Use synthetic data in demos and tests.
+- Keep refund approval separate from eligibility assessment.
+- Restrict and authenticate sensitive endpoints before production use.
+- Add appropriate rate limits, structured logging, monitoring, and error handling before handling real customer traffic.
+- Review database access permissions and backup requirements.
+- Review Render and Neon service limits and current pricing before relying on a free-tier deployment for critical workloads.
+- Do not treat a successful health check as a complete database or business-workflow test.
 
-```powershell
-python -m scripts.evaluate_routing_safety
-```
+## Current deployment verification
 
-Run the retrieval benchmark:
+The following checks have succeeded during deployment verification:
 
-```powershell
-python -m scripts.evaluate_retrieval
-```
+- Render health endpoint returned HTTP 200.
+- Refund assessment returned an eligibility result requiring human approval.
+- Ticket creation returned a generated ticket ID.
+- Ticket retrieval returned the created ticket.
+- Support resolution returned a structured response with ML suggestions and a human-review outcome.
+- The Git working tree was clean, and the `main` branch was synchronized with `origin/main`.
 
-Run the live LLM shadow evaluation:
-
-```powershell
-python -m scripts.evaluate_llm_shadow
-```
-
-The LLM shadow evaluation requires a valid Groq API key and can consume API quota. It is separate from the deterministic regression tests.
-
-## Retrieval evaluation
-
-The retrieval benchmark contains seven test cases covering refund policy, damaged-item policy, mixed requests, and unsupported queries.
-
-Latest recorded benchmark results:
-
-| Metric | Keyword | Semantic |
-|---|---:|---:|
-| Expected-source hit rate | 100.0% | 100.0% |
-| Unsupported-query false-positive rate | 0.0% | 0.0% |
-| Irrelevant-result rate on supported queries | 23.1% | 28.6% |
-
-Keyword retrieval remains the default because it produced fewer irrelevant results in this small benchmark.
-
-These figures describe only the tested cases. A seven-case benchmark is too small to establish general retrieval performance or production reliability. Results should be reevaluated when the policy corpus or retrieval implementation changes.
-
-## LLM shadow-mode evaluation
-
-The project optionally uses Groq to generate candidate customer-support response drafts.
-
-In shadow mode:
-
-- The deterministic response and outcome remain authoritative.
-- The LLM receives verified facts and retrieved policy evidence.
-- Drafts are subject to validation and a safety gate.
-- Drafts that fail validation or safety checks are discarded.
-- The LLM does not issue refunds, approve refunds, or change the deterministic outcome.
-
-### Latest recorded evaluation
-
-Three scenarios are used by the current shadow evaluation:
-
-| Scenario | Observed behavior |
-|---|---|
-| Refund request | A draft was generated and the deterministic response and outcome remained unchanged. |
-| Damaged-item refund request | The draft was rejected by the safety gate; the deterministic response and outcome remained unchanged. |
-| Unsupported hotel-booking request | No draft was returned; the deterministic response and outcome remained unchanged. |
-
-The damaged-item rejection is not proof that the safety gate catches every unsafe claim. It demonstrates that a rejection path is exercised for this scenario.
-
-The current safety checks are not a guarantee of factual correctness. Broader tests are needed for incorrect currency interpretation, unsupported recording claims, invented policy instructions, refund eligibility misstatements, and unsupported follow-up promises.
-
-Keep `SUPPORT_LLM_ENABLED=false` by default until broader evaluation supports any change in operating mode.
-
-## Data and evaluation limitations
-
-- The Olist dataset represents historical Brazilian e-commerce activity. It does not establish the refund eligibility of a particular order in this application's demo workflow.
-- The Bitext customer-support dataset is synthetic or curated and is not verified real customer conversation data.
-- Classification metrics on these datasets do not establish performance on representative production support traffic.
-- The retrieval benchmark has only seven cases and should be treated as an initial regression baseline.
-- The LLM shadow evaluation covers only a small number of scenarios.
-- Automated tests demonstrate behavior for tested cases; they do not prove production readiness.
-
-## Security and operational boundaries
-
-- Keep `.env`, credentials, and API keys out of version control.
-- The `X-Demo-Customer-ID` header is not a substitute for authenticated identity and server-side authorization.
-- Validate customer ownership and authorization before exposing order information or permitting actions.
-- Refund eligibility assessment does not execute payments or refunds.
-- Human approval is required where the workflow returns `human_review_required`.
-- Do not treat generated text as a source of truth for policy, order data, eligibility, or authorization.
-- Before production deployment, add appropriate authentication, authorization, monitoring, error handling, auditability, and broader security and reliability evaluation.
-
-## Current validation
-
-Latest recorded local regression suite:
-
-- **66 tests passed.**
-
-Latest recorded retrieval benchmark:
-
-- Keyword expected-source hit rate: **100.0%**
-- Keyword unsupported-query false-positive rate: **0.0%**
-- Keyword irrelevant-result rate on supported queries: **23.1%**
-
-The LLM shadow evaluation preserves deterministic responses and outcomes in the three recorded scenarios. The damaged-item draft was rejected, and the unsupported request produced no draft.
-
-Rerun the tests and evaluations after code or policy changes and update this section with the new results. These results are an initial portfolio baseline, not a production-readiness certification.
