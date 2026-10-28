@@ -1,4 +1,5 @@
 
+
 from app.agent.workflow import support_graph
 
 def test_delivery_question_with_refund_mention_is_order_status():
@@ -27,6 +28,8 @@ def test_refund_request_returns_eligible_assessment():
     assert result["category"] == "refund"
     assert result["refund_assessment"]["eligible"] is True
     assert result["refund_assessment"]["amount_minor"] == 499900
+    assert "₹4,999.00" in result["response"]
+    assert "minor units" not in result["response"]
     assert result["refund_assessment"]["requires_approval"] is True
     assert "Human approval is required" in result["response"]
 

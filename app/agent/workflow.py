@@ -425,8 +425,7 @@ def formulate_response(state: SupportState) -> dict:
         elif assessment.get("eligible"):
             response = (
                 f"{summary} Your refund request meets the demo policy "
-                f"checks for {assessment['amount_minor']} "
-                f"{assessment['currency']} minor units. "
+                f"checks for ₹{assessment['amount_minor'] / 100:,.2f}. "
                 "Human approval is required before any refund is issued."
             )
 
