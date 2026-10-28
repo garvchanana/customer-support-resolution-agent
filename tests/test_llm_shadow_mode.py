@@ -79,3 +79,18 @@ def test_shadow_mode_failure_does_not_break_workflow(monkeypatch):
     })
 
     assert result == {"llm_draft": None}
+
+def test_shadow_mode_disabled_logs_status(monkeypatch, caplog):
+    import logging
+
+    monkeypatch.setenv("SUPPORT_LLM_ENABLED", "false")
+
+    with caplog.at_level(logging.INFO, logger="app.agent.workflow"):
+        result = workflow.draft_response_shadow_node({
+            "message": "I need a refund",
+            "response": "Human approval is required.",
+            "policy_evidence": [],
+        })
+
+    assert result == {}
+    assert "Groq shadow draft status=disabled" in caplog.text
