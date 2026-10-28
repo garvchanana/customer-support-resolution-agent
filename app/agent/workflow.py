@@ -290,6 +290,7 @@ def retrieve_policy_node(state: SupportState) -> dict:
 
 def draft_response_shadow_node(state: SupportState) -> dict:
     """Generate an optional LLM draft without changing the final response."""
+    logger.warning("SHADOW_NODE_EXECUTED")
     enabled = os.getenv(
         "SUPPORT_LLM_ENABLED",
         "false",
