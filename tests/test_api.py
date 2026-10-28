@@ -209,6 +209,14 @@ def test_support_resolve_rejects_another_customers_order(
 
     assert response.status_code == 404
 
+def test_customer_cannot_access_nonexistent_order(client, demo_headers):
+    response = client.get(
+        "/orders/ord_does_not_exist/refund-assessment",
+        headers=demo_headers,
+    )
+
+    assert response.status_code == 404
+
 def test_support_classify_returns_suggestions(client, demo_headers):
     response = client.post(
         "/support/classify",
