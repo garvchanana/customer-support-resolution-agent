@@ -300,6 +300,11 @@ def draft_response_shadow_node(state: SupportState) -> dict:
         "SHADOW_NODE_CONFIG enabled=%s",
         enabled,
     )
+    logger.warning(
+        "SHADOW_NODE_INPUT message_present=%s policy_evidence_count=%d",
+        bool(state.get("message", "").strip()),
+        len(state.get("policy_evidence", [])),
+    )
     if not enabled:
         logger.info("Groq shadow draft status=disabled")
         return {}
